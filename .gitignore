@@ -1,0 +1,53 @@
+# Claude Code
+.claude
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Build results (version subfolder structure: Source/1.6/, Source/1.5/, etc.)
+**/bin/
+**/obj/
+*.cache
+*.zip
+
+# Debug symbols
+*.pdb
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Build artifacts (version subfolder structure: 1.6/Assemblies/, 1.5/Assemblies/, etc.)
+# NOTE: Assemblies/ contains the compiled DLL that RimWorld loads.
+# Some developers commit this, others prefer to build locally.
+# Uncomment the line below if you prefer not to commit the DLL:
+*/Assemblies/*.dll
+
+# RimWorld local testing
+*.rws
+*.rws.old
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backup files
+*~
+*.bak
+*.orig
+
+# Temporary debug/test files
+debug_*.cs
+debug_*.exe
+test_*.cs
+test_*.exe
+
+# Logs
+*.log
