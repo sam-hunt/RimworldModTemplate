@@ -2,6 +2,22 @@
 <loadFolders>
     <v1.6>
         <li>/</li>
+        <!-- Once a LoadFolders.xml exists, ONLY the folders listed here load - the
+             game's default roots (version folder, Common, /) no longer apply. Common/
+             is documented in CLAUDE.md as the home for version-independent assets, so
+             it must be listed or its Languages/Textures silently never load. -->
+        <li>Common</li>
         <li>1.6</li>
+        <!-- Optional-mod/DLC compat roots live under 1.6/Mods/<Mod Name>/, one gated
+             entry each (the layout the wider ecosystem uses). Needed whenever content
+             can't gate itself: defs support MayRequire, but DefInjected entries do not
+             (the loader ignores attributes on them), so translations for a gated def
+             must ship from a folder-gated root like this. Compat roots must sit BESIDE
+             the well-known folders, never inside Defs/ or Languages/, which load
+             recursively and unconditionally at any depth. Safe to nest inside 1.6
+             because the game only scans well-known folders (Languages/, Defs/, ...)
+             directly under a load root, so the plain 1.6 entry above never sees Mods/.
+        <li IfModActive="ludeon.rimworld.biotech">1.6/Mods/Biotech</li>
+        -->
     </v1.6>
 </loadFolders>
