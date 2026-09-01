@@ -1,5 +1,6 @@
-# Claude Code
-.claude
+# Claude Code (skills are shared with contributors; local settings/hooks stay private)
+.claude/*
+!.claude/skills/
 
 # Visual Studio
 .vs/
@@ -9,7 +10,7 @@
 *.sln.docstates
 *.userprefs
 
-# Build results (version subfolder structure: Source/1.6/, Source/1.5/, etc.)
+# Build results
 **/bin/
 **/obj/
 *.cache
@@ -23,11 +24,10 @@ _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
 
-# Build artifacts (version subfolder structure: 1.6/Assemblies/, 1.5/Assemblies/, etc.)
-# NOTE: Assemblies/ contains the compiled DLL that RimWorld loads.
-# Some developers commit this, others prefer to build locally.
-# Uncomment the line below if you prefer not to commit the DLL:
+# Build artifacts (the compiled DLL RimWorld loads is built, not committed;
+# releases ship it via the StageMod target / CI zip)
 */Assemblies/*.dll
+*/Assemblies/*.pdb
 
 # RimWorld local testing
 *.rws
@@ -51,3 +51,10 @@ test_*.exe
 
 # Logs
 *.log
+
+# Python bytecode (translation-checker tooling, once adopted)
+__pycache__/
+*.py[cod]
+
+# Research documentation (kept locally, not tracked)
+Docs/

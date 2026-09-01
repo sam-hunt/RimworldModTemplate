@@ -1,13 +1,15 @@
+using HarmonyLib;
 using Verse;
 
-namespace MyRimWorldMod
+namespace MyRimWorldMod;
+
+[StaticConstructorOnStartup]
+public static class ModInit
 {
-    [StaticConstructorOnStartup]
-    public static class ModInit
+    static ModInit()
     {
-        static ModInit()
-        {
-            Log.Message("[MyRimWorldMod] Mod loaded.");
-        }
+        // The Harmony id only needs to be unique; convention is the mod's packageId.
+        new Harmony("yourname.myrimworldmod").PatchAll();
+        Log.Message("[MyRimWorldMod] Mod loaded.");
     }
 }

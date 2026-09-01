@@ -7,8 +7,10 @@ A ready-to-use template for creating RimWorld 1.6 mods with C# code.
 1. **Use this template** - Click "Use this template" on GitHub or clone/download
 2. **Rename your mod** - See [Customization](#customization) below
 3. **Set up RimWorld path** - See [Build Setup](#build-setup)
-4. **Build** - Run `dotnet build MyRimWorldMod.sln`
-5. **Install** - Copy or symlink the mod folder to your RimWorld `Mods/` directory
+4. **Build** - Run `dotnet build MyRimWorldMod.sln -c Release`
+
+When a local RimWorld install is detected, every Release build automatically stages the mod
+into the game's `Mods/` folder — no manual copying. Debug builds never deploy.
 
 ## Build Setup
 
@@ -45,14 +47,21 @@ When creating a new mod from this template, rename these files and update their 
 
 | File | What to Change |
 |------|----------------|
-| `About/About.xml` | `<name>`, `<author>`, `<packageId>`, `<description>` |
-| `Source/1.6/ModInit.cs` | Namespace, log message |
+| `About/About.xml` | `<name>`, `<author>`, `<packageId>`, `<modVersion>`, `<description>` |
+| `Source/1.6/ModInit.cs` | Namespace, Harmony id, log message |
+| `Source/1.6/Properties/AssemblyInfo.cs` | Title/product/description, fresh GUID, version |
 | `MyRimWorldMod.sln` | Rename file, update project name inside |
 | `Source/1.6/MyRimWorldMod.csproj` | Rename file |
+| `.github/workflows/release.yml` | The `.sln`/`.csproj` names in the Build and Stage steps |
+| `CHANGELOG.md` | The release-tag link's repository URL |
+| `.claude/skills/` | Mod name in `release` and `rimworld-logs` |
+| `.vscode/settings.json` | `dotnet.defaultSolution` |
 
 ### Package ID Format
 
-Use the format `AuthorName.ModName` (e.g., `JohnDoe.CoolMod`). This must be unique across all RimWorld mods.
+Use the format `authorname.modname`, all lowercase (e.g., `johndoe.coolmod`) — the game's
+`MayRequire`/mod-list matching is case-sensitive-lowercase. It must be unique across all
+RimWorld mods.
 
 ## Project Structure
 
@@ -74,20 +83,31 @@ To require a DLC or another mod, add to `About/About.xml`:
 ```xml
 <modDependencies>
     <li>
-        <packageId>Ludeon.RimWorld.Biotech</packageId>
+        <packageId>ludeon.rimworld.biotech</packageId>
         <displayName>Biotech</displayName>
     </li>
 </modDependencies>
 <loadAfter>
-    <li>Ludeon.RimWorld.Biotech</li>
+    <li>ludeon.rimworld.biotech</li>
 </loadAfter>
 ```
 
+The template already declares the [Harmony](https://github.com/pardeike/HarmonyRimWorld) mod
+(`brrainz.harmony`) as a dependency, since the C# side references `Lib.Harmony`.
+
 Common DLC package IDs:
-- `Ludeon.RimWorld.Royalty`
-- `Ludeon.RimWorld.Ideology`
-- `Ludeon.RimWorld.Biotech`
-- `Ludeon.RimWorld.Anomaly`
+- `ludeon.rimworld.royalty`
+- `ludeon.rimworld.ideology`
+- `ludeon.rimworld.biotech`
+- `ludeon.rimworld.anomaly`
+- `ludeon.rimworld.odyssey`
+
+## Releases
+
+Add the version's section to `CHANGELOG.md`, bump `<modVersion>` in `About/About.xml` and the
+versions in `Source/1.6/Properties/AssemblyInfo.cs`, then push a `v*.*.*` tag. GitHub Actions
+builds, packages, and creates the release, using that CHANGELOG section as the release body
+(and failing if it's missing). The `/release` Claude Code skill automates the whole flow.
 
 ## Requirements
 
