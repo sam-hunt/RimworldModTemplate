@@ -111,7 +111,9 @@ When creating a new mod from this template, update:
 3. `Source/1.6/Properties/AssemblyInfo.cs` - title/description/product, a freshly generated GUID, version
 4. `MyRimWorldMod.sln` - rename file and update project name
 5. `Source/1.6/MyRimWorldMod.csproj` - rename file (deploy folder name follows the project name)
-6. `MyRimWorldMod.sln` / `.github/workflows/release.yml` - the workflow builds the .sln and csproj by name; update both references
+6. `.github/workflows/release.yml` - the workflow names the .sln, the csproj, and the staged
+   folder/zip (`release/MyRimWorldMod`, `MyRimWorldMod-<tag>.zip`) by the project name; update
+   every occurrence, so the zip's folder matches the local deploy folder and the README
 7. `CHANGELOG.md` - update the release-tag link's repo URL
 8. `.claude/skills/` - swap the `MyRimWorldMod` name/log-prefix in `release` and `rimworld-logs`
 9. `.vscode/settings.json` - `dotnet.defaultSolution`
