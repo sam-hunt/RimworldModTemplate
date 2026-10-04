@@ -72,6 +72,13 @@ CHANGELOG.md     - Keep a Changelog format; load-bearing for releases (see below
 - References RimWorld assemblies via cross-platform paths in .csproj
 - Uses `Verse` namespace for core modding APIs
 - `[StaticConstructorOnStartup]` attribute triggers code at game startup
+- Mod-shipped textures die on an in-process play-data reload (a main-menu language switch):
+  `[StaticConstructorOnStartup]` still belongs on the class (main-thread asset loads), but a static
+  texture field would go dead, so re-resolve through a getter with a Unity-null `== null` check
+  (never `??`/`??=`). Vanilla-path textures persist and are safe as statics. Def-derived startup
+  caches need an idempotent per-load `Run()` fired from a `StaticConstructorOnStartupUtility.CallAll`
+  postfix (reference: `~/dev/PersonaWeaponsUnbound/Source/1.6/Core/PWU_Startup.cs` and
+  `Source/1.6/Defs/PWU_Textures.cs`).
 - Harmony is referenced (`Lib.Harmony`, compile-only) and bootstrapped in `ModInit.cs`; the
   runtime DLL comes from the `brrainz.harmony` mod dependency declared in About.xml
 - XML Defs define game objects; Patches modify existing Defs via XPath
