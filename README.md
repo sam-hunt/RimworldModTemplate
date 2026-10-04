@@ -58,13 +58,12 @@ When creating a new mod from this template, rename these files and update their 
 
 | File | What to Change |
 |------|----------------|
-| `About/About.xml` | `<name>`, `<author>`, `<packageId>`, `<modVersion>`, `<description>` |
+| `About/About.xml` | `<name>`, `<author>`, `<packageId>`, `<description>` |
 | `Source/1.6/ModInit.cs` | Namespace, Harmony id, log message |
-| `Source/1.6/Properties/AssemblyInfo.cs` | Title/product/description, fresh GUID, version |
+| `Source/1.6/Properties/AssemblyInfo.cs` | Title/product/description, fresh GUID |
 | `MyRimWorldMod.sln` | Rename file, update project name inside |
 | `Source/1.6/MyRimWorldMod.csproj` | Rename file |
 | `.github/workflows/release.yml` | The `.sln`/`.csproj` names in the Build and Stage steps |
-| `CHANGELOG.md` | The release-tag link's repository URL |
 | `.claude/skills/` | Mod name in `release` and `rimworld-logs` |
 | `.vscode/settings.json` | `dotnet.defaultSolution` |
 

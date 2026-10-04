@@ -115,14 +115,13 @@ assembly attributes stay `X.Y.Z.0`); `release.yml` treats any suffixed tag as a 
 ## Customization Checklist
 
 When creating a new mod from this template, update:
-1. `About/About.xml` - mod name, author, packageId (keep it lowercase), modVersion, description
+1. `About/About.xml` - mod name, author, packageId (keep it lowercase), description
 2. `Source/1.6/ModInit.cs` - namespace, Harmony id (= packageId), log message
-3. `Source/1.6/Properties/AssemblyInfo.cs` - title/description/product, a freshly generated GUID, version
+3. `Source/1.6/Properties/AssemblyInfo.cs` - title/description/product, a freshly generated GUID
 4. `MyRimWorldMod.sln` - rename file and update project name
 5. `Source/1.6/MyRimWorldMod.csproj` - rename file (deploy folder name follows the project name)
 6. `.github/workflows/release.yml` - the workflow names the .sln, the csproj, and the staged
    folder/zip (`release/MyRimWorldMod`, `MyRimWorldMod-<tag>.zip`) by the project name; update
    every occurrence, so the zip's folder matches the local deploy folder and the README
-7. `CHANGELOG.md` - update the release-tag link's repo URL
-8. `.claude/skills/` - swap the `MyRimWorldMod` name/log-prefix in `release` and `rimworld-logs`
-9. `.vscode/settings.json` - `dotnet.defaultSolution`
+7. `.claude/skills/` - swap the `MyRimWorldMod` name/log-prefix in `release` and `rimworld-logs`
+8. `.vscode/settings.json` - `dotnet.defaultSolution`
