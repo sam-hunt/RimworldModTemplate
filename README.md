@@ -107,7 +107,9 @@ Common DLC package IDs:
 Add the version's section to `CHANGELOG.md`, bump `<modVersion>` in `About/About.xml` and the
 versions in `Source/1.6/Properties/AssemblyInfo.cs`, then push a `v*.*.*` tag. GitHub Actions
 builds, packages, and creates the release, using that CHANGELOG section as the release body
-(and failing if it's missing). The `/release` Claude Code skill automates the whole flow.
+(and failing if it's missing). A suffixed tag (`v1.4.0-rc.1`) is a release candidate: a GitHub
+prerelease with the zip and no CHANGELOG section. The `/release` Claude Code skill automates the
+whole flow.
 
 ## Requirements
 
