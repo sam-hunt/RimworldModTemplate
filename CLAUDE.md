@@ -82,6 +82,9 @@ CHANGELOG.md     - Keep a Changelog format; load-bearing for releases (see below
 - Harmony is referenced (`Lib.Harmony`, compile-only) and bootstrapped in `ModInit.cs`; the
   runtime DLL comes from the `brrainz.harmony` mod dependency declared in About.xml
 - XML Defs define game objects; Patches modify existing Defs via XPath
+- **Warnings are build errors.** The csproj sets `TreatWarningsAsErrors`, so every compiler and
+  analyzer warning fails the build. `.editorconfig` severities at `warning` block the build;
+  `suggestion` is IDE-only.
 
 **Releases:** run the `/release` skill, or by hand: add the version's `## [X.Y.Z]` section to
 `CHANGELOG.md`, bump `About/About.xml` `<modVersion>` and `Source/1.6/Properties/AssemblyInfo.cs`,

@@ -18,7 +18,7 @@ would ship), so it runs every step below except the changelog. SemVer orders
 `1.3.0 < 1.4.0-rc.1 < 1.4.0-rc.2 < 1.4.0`, so candidates sit between stable
 versions without disturbing them.
 
-`$ARGUMENTS` is optional and resolved at step 3, where the version is first
+`$ARGUMENTS` is optional and resolved at step 4, where the version is first
 needed. From a stable version: a bump type (`major`, `minor`, `patch`),
 optionally followed by `rc`. From an RC version: `promote` (to the stable
 version) or `rc` (the next candidate). Ask for whatever is missing.
@@ -49,12 +49,12 @@ everything since the previous stable release.
 ## Steps
 
 Work through the steps below in order. The release decision — version,
-changelog, tag — happens once, at step 3, after everything that can still
-change the history. Step 3 is the single release gate; nothing else asks.
+changelog, tag — happens once, at step 4, after everything that can still
+change the history. Step 4 is the single release gate; nothing else asks.
 
 **Promoting an RC with nothing committed since its tag** (`git log
 <rc-tag>..HEAD` is empty): the candidate already validated this exact tree, so
-skip step 2 and go straight to step 3 — say so. Any commit since the RC tag
+skip step 3 and go straight to step 4 — say so. Any commit since the RC tag
 means the full run.
 
 ### 1. Review changes
@@ -65,7 +65,22 @@ release: use the full history (`git log --oneline --no-merges`) and think in
 terms of the mod's shipped feature set rather than a diff. No confirmation —
 this is orientation, not a decision.
 
-### 2. Clean build and deploy
+### 2. Build gate
+
+Run:
+```bash
+dotnet build MyRimWorldMod.sln -c Release
+```
+
+- The csproj sets `TreatWarningsAsErrors`, so the build is also the lint
+  gate: any compiler or analyzer warning fails it, and a passing build means
+  there is nothing warnings-only left in the log to read out.
+- This runs before the clean build and the release commit because it takes
+  seconds and fails fast; a broken tree must not reach either.
+- On any failure, stop and help the user fix it, then rerun until it passes.
+  No confirmation on success.
+
+### 3. Clean build and deploy
 
 Run:
 ```bash
@@ -75,7 +90,7 @@ dotnet build MyRimWorldMod.sln -c Release
 
 Report the build result. If the build fails, stop and help the user fix it.
 
-### 3. Version, changelog, and the single release confirmation
+### 4. Version, changelog, and the single release confirmation
 
 Do all of the following, then present it as **one** confirmation:
 
@@ -113,12 +128,12 @@ Do all of the following, then present it as **one** confirmation:
     they are identical across every candidate and the stable release.
 - Show the user, together: current version → new version (and bump type, or
   RC / promotion), the changelog notes (stable only), the full diff of the
-  changed files, and exactly what step 4 will do (rebuild, commit
+  changed files, and exactly what step 5 will do (rebuild, commit
   `chore: Bump version to <version>`, tag `v<version>`, push with tags).
 - **Ask the user to confirm — this is the only release confirmation.** On
   edits, apply them and re-show only what changed.
 
-### 4. Rebuild, commit, tag, push
+### 5. Rebuild, commit, tag, push
 
 No further questions unless something is unexpected:
 
@@ -142,4 +157,4 @@ No further questions unless something is unexpected:
 - **Stable:** the **GitHub** release notes need no paste: the tag-triggered
   workflow lifts this version's `CHANGELOG.md` section into the release body
   itself (and hard-fails the release if the section is missing), so the
-  changelog entry written at step 3 is the release body.
+  changelog entry written at step 4 is the release body.
