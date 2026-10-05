@@ -42,14 +42,18 @@ atomically.
   `Source/1.6/MyRimWorldMod.csproj` — see that target's comments for how it globs and what it
   excludes. It is generic over folders, so a new `1.7/` or `Sounds/` needs no build change; only a
   brand-new *file type* does. Local deploy and CI release both call it, so they can't drift.
-- **Optional Stop hook:** sibling mods run a local-only `.claude/hooks/sync-mod.sh` (gitignored)
-  that rebuilds+redeploys after a Claude turn when mod-relevant files changed, wired via a `Stop`
-  hook in `.claude/settings.local.json`. Copy both from a sibling mod (e.g. UniqueMeleeWeapons) if
-  wanted.
+- **Stop hook (`.claude/hooks/sync-mod.sh`):** rebuilds+redeploys after a Claude turn when
+  mod-relevant files changed, logs to `$TMPDIR/<repo-folder-name>-build.log`. Tracked and wired
+  by the tracked `.claude/settings.json`, so a mod created from this template gets it for free.
+  This repo is the canonical home of the script: it is byte-identical across the mod family and
+  derives the solution, project folder and mod name itself, so change it here and copy it
+  verbatim into the sibling repos, never per repo. It bails when no RimWorld install is found,
+  so CI and contributors without the game are unaffected.
 
 **`.claude/` is only partly gitignored.** `.gitignore` carries `.claude/*` followed by
-`!.claude/skills/`, so the skills are tracked and shared while hooks and settings are local
-per-machine. Editing a skill is a committed, team-visible change and must keep in step with
+`!.claude/skills/`, `!.claude/hooks/` and `!.claude/settings.json`, so the skills, the Stop hook
+and its wiring are tracked and shared while `settings.local.json` (personal permissions) stays
+local per machine. Editing a skill is a committed, team-visible change and must keep in step with
 whatever it automates (e.g. `/release` encodes the CHANGELOG layout and the version scheme below).
 
 ## Project Structure
