@@ -106,7 +106,7 @@ Do all of the following, then present it as **one** confirmation:
 - **Stable releases only — the changelog.** An RC skips this bullet group
   entirely: no section, no link reference.
   - Draft changelog notes from the full log since the last stable tag,
-    grouped by category (Fixes, Features, Polish/Other), omitting
+    grouped under Keep a Changelog headers (Added, Changed, Fixed), omitting
     chore/version-bump commits. When promoting, this spans every candidate:
     a fix for a bug that was introduced and fixed within the candidate line
     never reached users of a stable release, so fold it into the entry it
