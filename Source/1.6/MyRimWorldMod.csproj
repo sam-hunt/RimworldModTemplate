@@ -157,6 +157,13 @@
       <_ModFiles Include="$(RepoRoot)/Textures/**/*.png;$(RepoRoot)/Textures/**/*.jpg;$(RepoRoot)/Textures/**/*.jpeg;$(RepoRoot)/*/Textures/**/*.png;$(RepoRoot)/*/Textures/**/*.jpg;$(RepoRoot)/*/Textures/**/*.jpeg;$(RepoRoot)/Mods/*/Textures/**/*.png;$(RepoRoot)/Mods/*/Textures/**/*.jpg;$(RepoRoot)/Mods/*/Textures/**/*.jpeg" />
       <_ModFiles Include="$(RepoRoot)/Sounds/**/*.wav;$(RepoRoot)/Sounds/**/*.mp3;$(RepoRoot)/Sounds/**/*.ogg;$(RepoRoot)/*/Sounds/**/*.wav;$(RepoRoot)/*/Sounds/**/*.mp3;$(RepoRoot)/*/Sounds/**/*.ogg" />
       <_ModFiles Include="$(RepoRoot)/Languages/**/*.xml;$(RepoRoot)/Languages/**/*.txt;$(RepoRoot)/*/Languages/**/*.xml;$(RepoRoot)/*/Languages/**/*.txt;$(RepoRoot)/*/Mods/*/Languages/**/*.xml;$(RepoRoot)/*/Mods/*/Languages/**/*.txt" />
+      <!-- Asset bundles are EXTENSIONLESS files (ModAssetBundlesHandler loads every extensionless
+           file directly under AssetBundles/, and only the _win/_mac/_linux one matching the OS), so
+           this is the one glob that can't whitelist by extension: it takes the folder's direct
+           children and excludes Unity's .manifest sidecars, which must never be copied in anyway.
+           Bundles are committed binaries built outside this build (CI has no Unity); see
+           UniqueMeleeWeapons' Source/UnityShaders/ for the family's Unity project and build script. -->
+      <_ModFiles Include="$(RepoRoot)/AssetBundles/*;$(RepoRoot)/*/AssetBundles/*;$(RepoRoot)/*/Mods/*/AssetBundles/*" Exclude="$(RepoRoot)/AssetBundles/*.manifest;$(RepoRoot)/*/AssetBundles/*.manifest;$(RepoRoot)/*/Mods/*/AssetBundles/*.manifest" />
       <!-- The lines above also match under the gated compat load roots (see
            LoadFolders.xml), which come in two flavours: version-specific ones nest
            inside the version folder as <version>/Mods/<Mod Name>/ (Defs, Patches,
