@@ -56,7 +56,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Build
         run: dotnet build MyRimWorldMod.sln -c Release
@@ -70,7 +70,7 @@ jobs:
         # install steps name. Never derive it from About.xml's <name>, whose spaces
         # would turn into underscores.
         run: >
-          dotnet build Source/1.6/MyRimWorldMod.csproj -c Release
+          dotnet build Source/1.7/MyRimWorldMod.csproj -c Release
           -t:StageMod -p:StageDir=${{ github.workspace }}/release/MyRimWorldMod
 
       - name: Package mod

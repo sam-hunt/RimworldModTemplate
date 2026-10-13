@@ -1,8 +1,8 @@
 # RimWorld Mod Template
 
-A ready-to-use template for creating RimWorld 1.6 and 1.7 mods with C# code.
+A ready-to-use template for creating RimWorld 1.7 mods with C# code.
 
-[![RimWorld](https://img.shields.io/badge/RimWorld-1.6%20%7C%201.7-blue.svg)](https://rimworldgame.com/)
+[![RimWorld](https://img.shields.io/badge/RimWorld-1.7-blue.svg)](https://rimworldgame.com/)
 <!-- One badge per required DLC, e.g.:
 [![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey-red.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
 -->
@@ -60,10 +60,10 @@ When creating a new mod from this template, rename these files and update their 
 | File | What to Change |
 |------|----------------|
 | `About/About.xml` | `<name>`, `<author>`, `<packageId>`, `<description>` |
-| `Source/1.6/ModInit.cs` | Namespace, Harmony id, log message |
-| `Source/1.6/Properties/AssemblyInfo.cs` | Title/product/description, fresh GUID |
+| `Source/1.7/ModInit.cs` | Namespace, Harmony id, log message |
+| `Source/1.7/Properties/AssemblyInfo.cs` | Title/product/description, fresh GUID |
 | `MyRimWorldMod.sln` | Rename file, update project name inside |
-| `Source/1.6/MyRimWorldMod.csproj` | Rename file |
+| `Source/1.7/MyRimWorldMod.csproj` | Rename file |
 | `.github/workflows/release.yml` | The `.sln`/`.csproj` names in the Build and Stage steps |
 | `.claude/skills/` | Mod name in `release` and `rimworld-logs` |
 | `.vscode/settings.json` | `dotnet.defaultSolution` |
@@ -79,11 +79,11 @@ RimWorld mods.
 ```
 About/              - Mod metadata (About.xml)
 Textures/           - Art (version-independent, loaded via the "/" root; no Common/ root)
-1.6/                - Game content (loaded on both 1.6 and 1.7, see LoadFolders.xml)
+1.7/                - RimWorld 1.7 specific content
   Assemblies/       - Compiled DLLs (build output)
   Defs/             - XML definitions (ThingDefs, etc.)
   Patches/          - XML patches to modify base game/other mods
-Source/1.6/         - C# source code
+Source/1.7/         - C# source code (net10.0)
 LoadFolders.xml     - Tells RimWorld which folders to load per game version
 ```
 
@@ -116,7 +116,7 @@ Common DLC package IDs:
 ## Releases
 
 Add the version's section to `CHANGELOG.md`, bump `<modVersion>` in `About/About.xml` and the
-versions in `Source/1.6/Properties/AssemblyInfo.cs`, then push a `v*.*.*` tag. GitHub Actions
+versions in `Source/1.7/Properties/AssemblyInfo.cs`, then push a `v*.*.*` tag. GitHub Actions
 builds, packages, and creates the release, using that CHANGELOG section as the release body
 (and failing if it's missing). A suffixed tag (`v1.4.0-rc.1`) is a release candidate: a GitHub
 prerelease with the zip and no CHANGELOG section. The `/release` Claude Code skill automates the
@@ -124,8 +124,8 @@ whole flow.
 
 ## Requirements
 
-- .NET SDK (for building)
-- RimWorld 1.6 or 1.7 (to run the mod; the build references published assemblies, not the install)
+- .NET 10 SDK (for building; RimWorld 1.7 runs on .NET 10, so the mod targets net10.0)
+- RimWorld 1.7 (to run the mod; the build references published assemblies, not the install)
 
 ## License
 

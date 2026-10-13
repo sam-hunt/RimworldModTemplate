@@ -37,9 +37,8 @@ everything since the previous stable release.
 > Workshop page, port those steps back from a sibling's release skill, along with its
 > RC-promotion rule: the translation refresh runs even when promoting an unchanged
 > candidate, since its inputs (an upstream l10n release, a vanilla update) move
-> without a commit here. The smoke test boots whatever Steam branch is installed,
-> so a Workshop release of a 1.6+1.7 mod is smoke-tested on both branches when
-> the change touched C# or patches.
+> without a commit here. The smoke test boots whatever Steam branch is installed;
+> this mod is 1.7-only, so the 1.7 branch must be the installed one.
 
 ## Current state
 
@@ -124,7 +123,7 @@ Do all of the following, then present it as **one** confirmation:
   - `About/About.xml` `<modVersion>`: the full version, suffix included
     (`1.4.0-rc.1`). The game treats it as a display-only string, so testers
     with the Workshop copy also subscribed can tell the two apart.
-  - `Source/1.6/Properties/AssemblyInfo.cs`: `AssemblyInformationalVersion`
+  - `Source/1.7/Properties/AssemblyInfo.cs`: `AssemblyInformationalVersion`
     gets the same full version; `AssemblyVersion` and `AssemblyFileVersion`
     stay four-part numeric `X.Y.Z.0` with no suffix (they can't hold one), so
     they are identical across every candidate and the stable release.
@@ -142,7 +141,7 @@ No further questions unless something is unexpected:
 - Rebuild (`dotnet build MyRimWorldMod.sln -c Release`) so the deployed
   DLL carries the bumped `AssemblyVersion`. Stop on failure.
 - Stage only the release files: `About/About.xml`,
-  `Source/1.6/Properties/AssemblyInfo.cs`, and (stable only) `CHANGELOG.md`.
+  `Source/1.7/Properties/AssemblyInfo.cs`, and (stable only) `CHANGELOG.md`.
   If other tracked files are modified, list them and ask whether to include
   them (the one conditional exception).
 - Commit with message: `chore: Bump version to <version>`
