@@ -20,12 +20,13 @@ A ready-to-use template for creating RimWorld 1.6 mods with C# code.
 3. **Set up RimWorld path** - See [Build Setup](#build-setup)
 4. **Build** - Run `dotnet build MyRimWorldMod.sln -c Release`
 
-When a local RimWorld install is detected, every Release build automatically stages the mod
-into the game's `Mods/` folder — no manual copying. Debug builds never deploy.
+The build compiles against the published `Krafs.Rimworld.Ref` reference assemblies, so it
+needs no local game. When a local RimWorld install is detected, every Release build also stages
+the mod into the game's `Mods/` folder — no manual copying. Debug builds never deploy.
 
 ## Build Setup
 
-The project auto-detects your RimWorld installation on common Steam paths. If your installation is elsewhere, set the `RIMWORLD_PATH` environment variable:
+The RimWorld path only decides where the mod deploys. The project auto-detects your installation on common Steam paths. If your installation is elsewhere, set the `RIMWORLD_PATH` environment variable:
 
 **Windows (PowerShell):**
 ```powershell
@@ -124,7 +125,7 @@ whole flow.
 ## Requirements
 
 - .NET SDK (for building)
-- RimWorld 1.6 (for assembly references)
+- RimWorld 1.6 or 1.7 (to run the mod; the build references published assemblies, not the install)
 
 ## License
 
