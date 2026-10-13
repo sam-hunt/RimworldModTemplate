@@ -27,4 +27,13 @@
         <li IfModActive="ludeon.rimworld.biotech">1.6/Mods/Biotech</li>
         -->
     </v1.6>
+    <v1.7>
+        <!-- 1.7 runs the 1.6 tree unchanged: the Waylith CLR maps every UnityEngine
+             reference onto UnityStubs, so the net472 assembly loads as-is. Listed
+             explicitly rather than left to the game's highest-lower-version fallback,
+             so the intent is readable and tooling sees the same roots either way.
+             Every root (compat roots included) that <v1.6> lists belongs here too. -->
+        <li>/</li>
+        <li>1.6</li>
+    </v1.7>
 </loadFolders>

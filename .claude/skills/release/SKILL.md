@@ -37,7 +37,9 @@ everything since the previous stable release.
 > Workshop page, port those steps back from a sibling's release skill, along with its
 > RC-promotion rule: the translation refresh runs even when promoting an unchanged
 > candidate, since its inputs (an upstream l10n release, a vanilla update) move
-> without a commit here.
+> without a commit here. The smoke test boots whatever Steam branch is installed,
+> so a Workshop release of a 1.6+1.7 mod is smoke-tested on both branches when
+> the change touched C# or patches.
 
 ## Current state
 

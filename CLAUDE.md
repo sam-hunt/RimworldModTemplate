@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-RimWorld mod template for version 1.6. Use this as a starting point for new mods.
+RimWorld mod template for versions 1.6 and 1.7. Use this as a starting point for new mods.
 
 **Where documentation lives:** this file holds only cross-cutting rules and rationale. Per-item
 values and decompile-verified call paths belong in the header comment of the file they describe.
@@ -64,7 +64,7 @@ whatever it automates (e.g. `/release` encodes the CHANGELOG layout and the vers
 ```
 About/           - Mod metadata (About.xml)
 Textures/        - Art (version-independent, loaded via the "/" root; no Common/ root)
-1.6/             - RimWorld 1.6 specific content
+1.6/             - Game content; LoadFolders.xml loads this one tree on both 1.6 and 1.7
   Assemblies/    - Compiled DLLs (build output, gitignored)
   Defs/          - XML definitions (ThingDefs, etc.)
   Patches/       - XML patches to modify base game/other mods
@@ -75,8 +75,12 @@ CHANGELOG.md     - Keep a Changelog format; load-bearing for releases (see below
 
 ## RimWorld Modding Context
 
-- Target framework: .NET Framework 4.7.2
-- References RimWorld assemblies via cross-platform paths in .csproj
+- Target framework: .NET Framework 4.7.2. The same net472 DLL runs on 1.6 (Unity, Mono) and
+  on 1.7 (Ludeon's Waylith engine on .NET 10): the 1.7 runtime redirects every `UnityEngine*`
+  assembly reference onto its `UnityStubs.dll` with lax binding. Both versions share the one
+  `1.6/` content tree (see `LoadFolders.xml`); a 1.7-only split waits on the migration guide's
+  Phase B/C triggers.
+- References the RimWorld API through the `Krafs.Rimworld.Ref` package (see the csproj header)
 - Uses `Verse` namespace for core modding APIs
 - `[StaticConstructorOnStartup]` attribute triggers code at game startup
 - Mod-shipped textures die on an in-process play-data reload (a main-menu language switch):
@@ -104,14 +108,21 @@ assembly attributes stay `X.Y.Z.0`); `release.yml` treats any suffixed tag as a 
 ## Debugging
 
 1. **Dev Mode:** Settings > Dev Mode > Logging.
-2. **Log:** `%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Player.log`
-   (WSL: `/mnt/c/Users/*/AppData/LocalLow/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`;
-   Linux: `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`).
+2. **Log:** under `%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\`
+   (WSL: `/mnt/c/Users/*/AppData/LocalLow/Ludeon Studios/RimWorld by Ludeon Studios/`; Linux:
+   `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/`). On 1.7 it is
+   `Logs/Player.log` in that folder, with every entry stamped `YYYY-MM-DD HH:MM:SS.mmm  LEVEL
+   [Category] message` and indented `at ...` stack frames; `Player.log` one level up is the 1.6
+   log, and after a 1.7 boot it is a stale 1.6 file.
 3. **Logging convention:** `Log.Message("[MyRimWorldMod] ...")` — grep the prefix to isolate our
    output.
 4. **Inspect the API:** `monodis` for signatures, `ilspycmd -t "Namespace.ClassName"` for method
    bodies, both against the local install's `Assembly-CSharp.dll` (source of truth over the
-   Krafs ref package). The `rimworld-logs` skill covers both.
+   Krafs ref package): `$RIMWORLD_PATH/Assembly-CSharp.dll` on 1.7, with `UnityStubs.dll` beside
+   it for Unity-facing signatures; `$RIMWORLD_PATH/RimWorldWin64_Data/Managed/Assembly-CSharp.dll`
+   on 1.6. The install's assembly is whichever Steam branch is installed, so a decompile-verified
+   call path in a file header should say which version it was verified on, and say so again if a
+   re-verification on the other version differs. The `rimworld-logs` skill covers both.
 
 ## Localization and Optional-Content Gating
 

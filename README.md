@@ -1,8 +1,8 @@
 # RimWorld Mod Template
 
-A ready-to-use template for creating RimWorld 1.6 mods with C# code.
+A ready-to-use template for creating RimWorld 1.6 and 1.7 mods with C# code.
 
-[![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
+[![RimWorld](https://img.shields.io/badge/RimWorld-1.6%20%7C%201.7-blue.svg)](https://rimworldgame.com/)
 <!-- One badge per required DLC, e.g.:
 [![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey-red.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
 -->
@@ -79,7 +79,7 @@ RimWorld mods.
 ```
 About/              - Mod metadata (About.xml)
 Textures/           - Art (version-independent, loaded via the "/" root; no Common/ root)
-1.6/                - RimWorld 1.6 specific content
+1.6/                - Game content (loaded on both 1.6 and 1.7, see LoadFolders.xml)
   Assemblies/       - Compiled DLLs (build output)
   Defs/             - XML definitions (ThingDefs, etc.)
   Patches/          - XML patches to modify base game/other mods
