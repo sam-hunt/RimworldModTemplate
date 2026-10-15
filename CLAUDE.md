@@ -141,6 +141,7 @@ assembly attributes stay `X.Y.Z.0`); `release.yml` treats any suffixed tag as a 
 
 - `MayRequire`/`MayRequireAnyOf` work on def root nodes and list items, but the DefInjected loader ignores XML attributes entirely. A DefInjected entry for a gated def placed in the main tree loads unconditionally and logs a "found no def named ..." startup error whenever the gating mod/DLC is absent.
 - The fix is a folder gate: ship the gated content from a compat load root, loaded via an `IfModActive` entry in `LoadFolders.xml` (commented example there). Two flavours, mirroring the ungated roots: `1.7/Mods/<Mod Name>/` for version-specific content (Defs, and the DefInjected targeting them) and root-level `Mods/<Mod Name>/` for version-independent content (art). The def's `MayRequire` becomes redundant and should be dropped when it moves.
+- **Mod-active checks from C#:** always `ModDetection.IsActive(packageId)` (`Source/1.7/ModDetection.cs`), never `ModsConfig.IsActive(string)`: the latter is an exact match on the stored ids, and Steam Workshop installs are stored with a `_steam` postfix, so it is false for every Workshop build. `MayRequire`/`IfModActive` are postfix-tolerant, so XML never had the problem.
 - Compat roots must sit BESIDE the well-known folders, never inside them: anything under `1.7/Defs/**` or `1.7/Languages/**` loads unconditionally at any depth.
 - The game gates a DefInjected entry by the load root that CONTAINS it, never by the def it targets. The reverse mistake also bites: a main-tree def's translation placed in a compat root silently vanishes when the gate is closed.
 - A compat root's language files must never reuse a main-tree file's language-relative path (`DefInjected/<Type>/<File>.xml`, `Keyed/<File>.xml`): the game dedups language files per mod by that path and silently skips one whole file, in an enumeration order that is not LoadFolders order. Suffix compat-root filenames with the gate's name (`WeaponTraits_Royalty.xml`).
@@ -151,6 +152,7 @@ assembly attributes stay `X.Y.Z.0`); `release.yml` treats any suffixed tag as a 
 When creating a new mod from this template, update:
 1. `About/About.xml` - mod name, author, packageId (keep it lowercase), description
 2. `Source/1.7/ModInit.cs` - namespace, Harmony id (= packageId), log message
+   (and the namespace in `Source/1.7/ModDetection.cs`)
 3. `Source/1.7/Properties/AssemblyInfo.cs` - title/description/product, a freshly generated GUID
 4. `MyRimWorldMod.sln` - rename file and update project name
 5. `Source/1.7/MyRimWorldMod.csproj` - rename file (deploy folder name follows the project name)
